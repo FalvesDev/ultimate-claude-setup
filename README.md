@@ -259,6 +259,13 @@ Por favor inclua:
 Todo o credito vai para os criadores das ferramentas originais.
 Veja [CREDITS.md](CREDITS.md) para a lista completa com links.
 
+---
+
+## Documentacao
+
+- [docs/ultimate-claude.md](docs/ultimate-claude.md) — guia completo de uso de todos os comandos e agentes
+- [docs/INSTALL_LOG.md](docs/INSTALL_LOG.md) — referencia tecnica da instalacao
+
 Este projeto contribui com: scripts de automacao, curadoria, documentacao em PT-BR.
 
 ---
