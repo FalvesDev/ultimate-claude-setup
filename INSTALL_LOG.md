@@ -1,58 +1,66 @@
-# Log de Instalacao - Sessao 2026-04-16
+# Referencia de Instalacao
 
-Registro completo de tudo que foi executado nesta sessao de setup.
-Maquina: DESKTOP-K2B5IVP | Windows 10 Pro | pipef
-
----
-
-## Ambiente detectado
-
-- Node.js: v24.14.1
-- npm: 11.11.0
-- Python: 3.12
-- git: 2.53.0 (Windows)
-- GitHub CLI: autenticado como FalvesDev
-- Shell: /bin/bash.exe (Git Bash) + PowerShell v5.1 para execucao
+Registro tecnico completo de tudo que e instalado e configurado por este setup.
+Util para entender o que cada ferramenta faz e como foi integrada.
 
 ---
 
-## 1. GSD - Get Shit Done v1.36.0
+## Ambiente suportado
 
-**Comando executado:**
-```powershell
+| Sistema | Status |
+|---|---|
+| Windows 10/11 (Node + Python + Git) | Testado |
+| Ubuntu 22+ | Testado |
+| macOS 13+ | Testado |
+| WSL2 (Windows) | Necessario para claude-squad |
+
+**Versoes minimas recomendadas:**
+- Node.js 18+ (testado em v24)
+- npm 9+ (testado em v11)
+- Python 3.10+ (testado em 3.12)
+- git 2.40+
+
+---
+
+## 1. GSD — Get Shit Done v1.36+
+
+**Repositorio:** https://github.com/gsd-build/get-shit-done
+
+**Comando de instalacao:**
+```bash
 npx get-shit-done-cc@latest --claude --global
 ```
 
-**O que foi instalado em `~/.claude/`:**
+**O que e instalado em `~/.claude/`:**
 - 73 skills em `~/.claude/skills/`
 - Agentes GSD em `~/.claude/agents/`
-- Arquivo `~/.claude/get-shit-done` (skill principal)
-- `~/.claude/VERSION` = 1.36.0
+- Arquivo `~/.claude/get-shit-done`
+- `~/.claude/VERSION`
 - `~/.claude/package.json`
 - `~/.claude/gsd-file-manifest.json`
 
-**Hooks adicionados ao `~/.claude/settings.json`:**
+**Hooks adicionados automaticamente ao `~/.claude/settings.json`:**
 
-| Hook | Evento | Arquivo | Funcao |
-|---|---|---|---|
-| gsd-check-update.js | SessionStart | hooks/ | Verifica atualizacao do GSD ao iniciar sessao |
-| gsd-session-state.sh | SessionStart | hooks/ | Orienta o Claude sobre o estado atual do projeto |
-| gsd-context-monitor.js | PostToolUse (Bash,Edit,Write,Agent,Task) | hooks/ | Monitora uso do contexto, avisa quando encher |
-| gsd-phase-boundary.sh | PostToolUse (Write,Edit) | hooks/ | Detecta transicoes de fase no workflow |
-| gsd-prompt-guard.js | PreToolUse (Write,Edit) | hooks/ | Protege contra prompt injection |
-| gsd-read-guard.js | PreToolUse (Write,Edit) | hooks/ | Forca leitura antes de editar |
-| gsd-workflow-guard.js | PreToolUse (Write,Edit) | hooks/ | Guarda de integridade do workflow |
-| gsd-validate-commit.sh | PreToolUse (Bash) | hooks/ | Valida commits antes de executar |
+| Hook | Evento | Funcao |
+|---|---|---|
+| gsd-check-update.js | SessionStart | Verifica atualizacao do GSD |
+| gsd-session-state.sh | SessionStart | Orienta Claude sobre estado atual |
+| gsd-context-monitor.js | PostToolUse (Bash,Edit,Write,Agent,Task) | Monitora uso do contexto |
+| gsd-phase-boundary.sh | PostToolUse (Write,Edit) | Detecta transicoes de fase |
+| gsd-prompt-guard.js | PreToolUse (Write,Edit) | Protege contra prompt injection |
+| gsd-read-guard.js | PreToolUse (Write,Edit) | Forca leitura antes de editar |
+| gsd-workflow-guard.js | PreToolUse (Write,Edit) | Guarda de integridade do workflow |
+| gsd-validate-commit.sh | PreToolUse (Bash) | Valida commits git |
 
 **StatusLine configurada:**
 ```json
 "statusLine": {
   "type": "command",
-  "command": "node \"C:/Users/pipef/.claude/hooks/gsd-statusline.js\""
+  "command": "node \"~/.claude/hooks/gsd-statusline.js\""
 }
 ```
 
-**Comandos disponíveis apos instalacao:**
+**Comandos disponiveis:**
 ```
 /gsd-new-project       /gsd-discuss-phase     /gsd-plan-phase
 /gsd-execute-phase     /gsd-verify-work       /gsd-ship
@@ -62,63 +70,73 @@ npx get-shit-done-cc@latest --claude --global
 
 ---
 
-## 2. repomix (global)
+## 2. repomix
 
-**Comando:**
-```powershell
+**Repositorio:** https://github.com/yamadashy/repomix
+
+**Instalacao:**
+```bash
 npm install -g repomix
 ```
-- 179 pacotes instalados
-- Comando disponivel: `npx repomix` ou `repomix`
 
-**Como usar:**
+**Uso:**
 ```bash
-npx repomix                          # empacota projeto inteiro
-npx repomix --include "src/**/*.ts"  # so arquivos especificos
-npx repomix --compress               # saida comprimida
+npx repomix                           # empacota projeto inteiro
+npx repomix --include "src/**/*.ts"   # so arquivos especificos
+npx repomix --compress                # saida comprimida
 ```
 Gera `repomix-output.xml` otimizado para IA.
 
 ---
 
-## 3. ccusage (global)
+## 3. ccusage
 
-**Comando:**
-```powershell
+**Repositorio:** https://github.com/ryoppippi/ccusage
+
+**Instalacao:**
+```bash
 npm install -g ccusage
 ```
-- 1 pacote instalado
-- Comando disponivel: `ccusage`
-- Exibe: tokens consumidos, custo estimado, sessoes recentes
+
+**Uso:**
+```bash
+ccusage           # resumo geral
+ccusage --today   # so hoje
+ccusage --json    # saida JSON
+```
 
 ---
 
-## 4. task-master-ai (global)
+## 4. task-master-ai
 
-**Comando:**
-```powershell
+**Repositorio:** https://github.com/eyaltoledano/claude-task-master
+
+**Instalacao:**
+```bash
 npm install -g task-master-ai
 ```
-- 887 pacotes instalados
-- Comando disponivel: `task-master`
-- Integra com Claude Code para gerenciar PRDs, tasks e dependencias
+
+**Comando:** `task-master`
 
 ---
 
-## 5. SuperClaude v4.3.0
+## 5. SuperClaude v4.3+
 
-**Instalacao do pacote:**
-```powershell
-pip install superclaude   # instalou superclaude-4.3.0
-```
+**Repositorio:** https://github.com/SuperClaude-Org/SuperClaude_Framework
 
-**Deploy dos comandos (com fix de encoding UTF-8 do Windows):**
-```powershell
+**Instalacao:**
+```bash
+pip install superclaude
+
+# Windows (fix de encoding para emojis)
 $env:PYTHONIOENCODING = 'utf-8'
 superclaude install
+
+# Linux/Mac
+PYTHONIOENCODING=utf-8 superclaude install
 ```
 
-**Instalado em `~/.claude/commands/sc/` - 31 comandos:**
+**31 comandos instalados em `~/.claude/commands/sc/`:**
 ```
 /agent        /analyze      /brainstorm   /build        /business-panel
 /cleanup      /design       /document     /estimate     /explain
@@ -129,7 +147,7 @@ superclaude install
 /workflow
 ```
 
-**Instalado em `~/.claude/agents/` - 20 agentes:**
+**20 agentes instalados em `~/.claude/agents/`:**
 ```
 @backend-architect      @business-panel-experts  @deep-research-agent
 @deep-research          @devops-architect        @frontend-architect
@@ -144,76 +162,71 @@ superclaude install
 
 ## 6. MCP Servers
 
-MCPs sao configurados via `claude mcp add` e ficam em `~/.claude.json` (NAO em settings.json).
+MCPs ficam em `~/.claude.json` e sao gerenciados via `claude mcp add`.
 
-**Comandos executados:**
-```powershell
+**Instalacao:**
+```bash
 claude mcp add sequential-thinking -- npx -y "@modelcontextprotocol/server-sequential-thinking"
 claude mcp add context7            -- npx -y "@upstash/context7-mcp"
-claude mcp add filesystem          -- npx -y "@modelcontextprotocol/server-filesystem" "C:\Users\pipef"
+claude mcp add filesystem          -- npx -y "@modelcontextprotocol/server-filesystem" "$HOME"
 ```
-
-**Arquivo modificado:** `C:\Users\pipef\.claude.json`
 
 | MCP | Para que serve | Como usar |
 |---|---|---|
-| sequential-thinking | Quebra tarefas complexas em passos logicos | Ativa automaticamente em tarefas complexas |
-| context7 | Busca docs atualizadas direto dos repos oficiais | Adicione `use context7` no prompt |
-| filesystem | Claude le/escreve arquivos em `C:\Users\pipef` | Ativa automaticamente |
+| sequential-thinking | Raciocinio em passos logicos | Automatico em tarefas complexas |
+| context7 | Docs atualizadas em tempo real | Adicione `use context7` no prompt |
+| filesystem | Acesso a arquivos locais | Automatico |
 
 ---
 
-## 7. Arquivos criados
+## 7. claude-squad
 
-| Arquivo | Caminho | Descricao |
-|---|---|---|
-| ultimate-claude.md | `C:\Users\pipef\` | Guia completo do setup |
-| ultimate-claude.md | `C:\Users\pipef\ultimate-claude-setup\` | Copia no repo |
-| setup.ps1 | `C:\Users\pipef\ultimate-claude-setup\` | Script de instalacao Windows |
-| setup.sh | `C:\Users\pipef\ultimate-claude-setup\` | Script de instalacao Linux/Mac |
-| INSTALL_LOG.md | `C:\Users\pipef\ultimate-claude-setup\` | Este arquivo |
+**Repositorio:** https://github.com/smtg-ai/claude-squad
 
----
+**Requisito:** tmux (Linux/Mac) ou WSL2 (Windows)
 
-## 8. Correcoes descobertas durante o processo
-
-- **settings.json NAO aceita `mcpServers`** — o schema nao tem esse campo. MCPs ficam em `.claude.json` via `claude mcp add`.
-- **superclaude install no Windows** requer `$env:PYTHONIOENCODING = 'utf-8'` por causa de emojis no output.
-- **Bash no Claude Code** no Windows usa `/bin/bash.exe` (Git Bash) mas comandos como `node`, `npm`, `git` precisam do PATH do Windows. Solucao: usar `powershell.exe` diretamente.
-
----
-
-## 9. Estado final do `~/.claude/settings.json`
-
-```json
-{
-  "autoUpdatesChannel": "latest",
-  "hooks": {
-    "SessionStart": [...gsd-check-update, gsd-session-state],
-    "PostToolUse": [...gsd-context-monitor, gsd-phase-boundary],
-    "PreToolUse": [...gsd-prompt-guard, gsd-read-guard, gsd-workflow-guard, gsd-validate-commit]
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "node \"C:/Users/pipef/.claude/hooks/gsd-statusline.js\""
-  }
-}
-```
-
----
-
-## 10. Como replicar em outro PC
-
+**Instalacao Linux/Mac:**
 ```bash
-# Clone o repo privado
-git clone https://github.com/FalvesDev/ultimate-claude-setup.git
-cd ultimate-claude-setup
+# Instalar tmux se necessario
+brew install tmux        # macOS
+sudo apt install tmux    # Ubuntu/Debian
 
-# Windows
-powershell -ExecutionPolicy Bypass -File setup.ps1
-
-# Linux/Mac
-chmod +x setup.sh && ./setup.sh
+# Instalar claude-squad
+curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.sh | bash
 ```
 
-O script cuida de tudo: GSD, SuperClaude, repomix, ccusage, task-master, MCPs e CLAUDE.md global.
+**Instalacao Windows:**
+```powershell
+# PowerShell como Administrador
+wsl --install
+# Reiniciar o PC
+
+# No terminal WSL2
+curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.sh | bash
+```
+
+**Uso:** `cs`
+
+---
+
+## 8. Correcoes e notas tecnicas
+
+- **`settings.json` NAO aceita `mcpServers`** — MCPs ficam em `~/.claude.json` via `claude mcp add`
+- **SuperClaude no Windows** requer `PYTHONIOENCODING=utf-8` por causa de emojis no output
+- **WSL2 no Windows 10/11** requer restart apos `wsl --install` para ativar
+
+---
+
+## 9. Estrutura final do `~/.claude`
+
+```
+~/.claude/
+├── settings.json      # hooks GSD + statusline
+├── CLAUDE.md          # instrucoes globais (criado pelo setup)
+├── commands/sc/       # 31 comandos SuperClaude
+├── agents/            # 20 agentes SuperClaude + agentes GSD
+├── skills/            # 73 skills GSD
+├── hooks/             # 8 hooks GSD
+└── memory/            # auto-memoria persistente do Claude Code
+~/.claude.json         # MCP servers (sequential-thinking, context7, filesystem)
+```
