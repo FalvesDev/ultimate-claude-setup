@@ -1,39 +1,51 @@
-# Ultimate Claude Code Setup
+# Claude Code Setup PT-BR
 
-> Setup completo para transformar o Claude Code num ambiente de desenvolvimento de elite.
-> Workflow spec-driven + agentes especializados + multi-agente paralelo + MCP servers.
+> Curadoria e instalacao automatizada das melhores ferramentas open source para Claude Code.
+> Um comando instala tudo. Focado na comunidade brasileira de desenvolvimento.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Testado em](https://img.shields.io/badge/testado%20em-Windows%2010%2F11%20%7C%20Ubuntu%2022%2B%20%7C%20macOS%2013%2B-blue)]()
+[![Plataformas](https://img.shields.io/badge/plataformas-Windows%20%7C%20Linux%20%7C%20macOS-blue)]()
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-blueviolet)](https://claude.ai/code)
+[![PT-BR](https://img.shields.io/badge/idioma-PT--BR-green)]()
 
-**Idioma:** Portugues (PT-BR) | [English version coming soon]
-
----
-
-## O que e este projeto?
-
-Um script de instalacao e guia completo que configura o Claude Code com as melhores ferramentas da comunidade open source em um unico comando.
-
-**Instalado e configurado automaticamente:**
-
-| Ferramenta | O que faz |
-|---|---|
-| [GSD](https://github.com/gsd-build/get-shit-done) | Workflow spec-driven, previne context rot, execucao paralela |
-| [SuperClaude](https://github.com/SuperClaude-Org/SuperClaude_Framework) | 31 comandos `/sc:` + 20 agentes especializados |
-| [repomix](https://github.com/yamadashy/repomix) | Empacota codebase para IA, economiza tokens |
-| [ccusage](https://github.com/ryoppippi/ccusage) | Dashboard de consumo de tokens |
-| [task-master](https://github.com/eyaltoledano/claude-task-master) | Gerenciamento de tarefas com IA |
-| [claude-squad](https://github.com/smtg-ai/claude-squad) | Multi-agente paralelo (requer tmux/WSL2) |
-| MCP: sequential-thinking | Raciocinio em passos logicos |
-| MCP: context7 | Documentacao atualizada em tempo real |
-| MCP: filesystem | Acesso seguro a arquivos locais |
+> **Aviso:** Este projeto e uma curadoria e script de automacao de instalacao.
+> Nao somos afiliados a Anthropic nem aos projetos incluidos.
+> Todo o credito vai para os autores originais — veja [CREDITS.md](CREDITS.md).
 
 ---
 
-## Instalacao rapida
+## Por que este projeto existe?
 
-**Pre-requisitos:** Node.js 18+, Python 3.10+, git, [Claude Code CLI](https://claude.ai/code)
+Configurar o Claude Code com todas as melhores ferramentas da comunidade leva horas de pesquisa e instalacao manual. Este projeto resolve isso com um unico comando, documentacao completa em PT-BR e curadoria das ferramentas mais impactantes.
+
+**O que este projeto oferece:**
+- Script de instalacao automatica (Windows + Linux + macOS)
+- Documentacao completa em portugues de cada ferramenta
+- Curadoria das ferramentas com maior impacto real no workflow
+- Guia de uso de agentes e comandos com exemplos praticos
+
+---
+
+## Estatisticas das ferramentas incluidas
+
+| Ferramenta | Stars | Forks | O que faz |
+|---|---|---|---|
+| [GSD](https://github.com/gsd-build/get-shit-done) | ⭐ 53k+ | 🍴 4.5k | Workflow spec-driven, previne context rot |
+| [SuperClaude](https://github.com/SuperClaude-Org/SuperClaude_Framework) | ⭐ 20k+ | 🍴 2k | 31 comandos + 20 agentes especializados |
+| [repomix](https://github.com/yamadashy/repomix) | ⭐ 20k+ | 🍴 1k | Empacota codebase para IA, economiza tokens |
+| [task-master](https://github.com/eyaltoledano/claude-task-master) | ⭐ 20k+ | 🍴 2k | Gerenciamento de tarefas com IA |
+| [claude-squad](https://github.com/smtg-ai/claude-squad) | ⭐ 8k+ | 🍴 500 | Multi-agente paralelo com tmux |
+| [ccusage](https://github.com/ryoppippi/ccusage) | ⭐ 3k+ | 🍴 200 | Dashboard de consumo de tokens |
+| [context7 MCP](https://github.com/upstash/context7) | ⭐ 15k+ | 🍴 800 | Docs atualizadas em tempo real |
+| [MCP Servers](https://github.com/modelcontextprotocol/servers) | ⭐ 14k+ | 🍴 1.5k | Sequential thinking + filesystem |
+
+**Total de stars curadas: ~153k+** — o melhor do ecossistema Claude Code em um lugar so.
+
+---
+
+## Instalacao — 1 comando
+
+**Pre-requisitos:** [Node.js 18+](https://nodejs.org) · [Python 3.10+](https://python.org) · [git](https://git-scm.com) · [Claude Code CLI](https://claude.ai/code)
 
 ```bash
 git clone https://github.com/FalvesDev/ultimate-claude-setup.git
@@ -50,167 +62,135 @@ powershell -ExecutionPolicy Bypass -File setup.ps1
 chmod +x setup.sh && ./setup.sh
 ```
 
-Reinicie o Claude Code apos a instalacao.
+Reinicie o Claude Code apos a instalacao. Pronto.
 
 ---
 
-## Como usar cada ferramenta
+## O que e instalado automaticamente
 
-### GSD — Workflow para projetos
+### GSD — Get Shit Done
+**[github.com/gsd-build/get-shit-done](https://github.com/gsd-build/get-shit-done)** · ⭐ 53k+
 
-O GSD divide o trabalho em fases com contexto fresco a cada execucao, evitando degradacao de qualidade em projetos longos.
+O sistema mais importante do setup. Resolve o maior problema do Claude Code: **context rot** — degradacao da qualidade conforme o contexto enche. Divide o trabalho em fases com contexto fresco a cada execucao.
+
+Instala automaticamente 8 hooks, 73 skills e statusline customizada.
 
 ```
-# Fluxo padrao para novo projeto:
-
-1. /gsd-new-project        → cria PROJECT.md, REQUIREMENTS.md, ROADMAP.md
-2. /gsd-discuss-phase 1    → captura decisoes antes de planejar
-3. /gsd-plan-phase 1       → pesquisa + plano detalhado
-4. /gsd-execute-phase 1    → executa em ondas paralelas
-5. /gsd-verify-work 1      → verifica contra os objetivos
-6. /gsd-ship 1             → cria PR
-
-# Para tarefas rapidas sem planejamento:
-/gsd-quick "adicionar validacao no formulario de login"
+/gsd-new-project        → cria PROJECT.md, REQUIREMENTS.md, ROADMAP.md
+/gsd-plan-phase 1       → pesquisa + plano detalhado
+/gsd-execute-phase 1    → executa em ondas paralelas
+/gsd-verify-work 1      → verifica contra os objetivos
+/gsd-ship 1             → cria PR
+/gsd-quick "tarefa"     → tarefa rapida sem overhead
 ```
-
-**Todos os comandos:**
-
-| Comando | Para que serve |
-|---|---|
-| `/gsd-new-project` | Inicializa projeto com requisitos e roadmap |
-| `/gsd-quick [tarefa]` | Tarefa rapida sem overhead |
-| `/gsd-discuss-phase N` | Captura decisoes da fase N |
-| `/gsd-plan-phase N` | Pesquisa + plano da fase N |
-| `/gsd-execute-phase N` | Executa fase N em paralelo |
-| `/gsd-verify-work N` | Verifica resultado da fase N |
-| `/gsd-ship N` | Cria PR da fase N |
-| `/gsd-next` | Avanca automaticamente |
-| `/gsd-complete-milestone` | Arquiva milestone + tag |
 
 ---
 
-### SuperClaude — Comandos e Agentes
+### SuperClaude Framework
+**[github.com/SuperClaude-Org/SuperClaude_Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework)** · ⭐ 20k+
 
-**Comandos `/sc:`** — use dentro do Claude Code:
+Adiciona 31 comandos `/sc:` e 20 agentes especializados ao Claude Code.
 
+**Comandos:**
 ```bash
 /sc:implement "adicionar autenticacao JWT"
-/sc:research  "melhores praticas para rate limiting em APIs"
+/sc:research  "melhores praticas para rate limiting"
 /sc:analyze   src/auth/middleware.ts
 /sc:test      src/services/userService.ts
-/sc:improve   "refatorar para async/await"
-/sc:design    "arquitetura de microservicos para e-commerce"
-/sc:troubleshoot "erro 500 ao fazer login com Google OAuth"
+/sc:troubleshoot "erro 500 no login OAuth"
+/sc:design    "arquitetura de microservicos"
 /sc:document  src/api/
-/sc:build
-/sc:spawn     "crie agentes para backend, frontend e testes"
 ```
 
-**Agentes `@`** — especialistas em sub-tarefas:
-
+**Agentes — use com `@nome`:**
 ```bash
-@backend-architect    "projete a camada de dados para notificacoes"
-@frontend-architect   "estruture dashboard com React Query e Zustand"
-@security-engineer    "audite este endpoint de upload de arquivos"
-@performance-engineer "otimize estas queries N+1"
-@quality-engineer     "crie suite de testes para o modulo de pagamento"
-@devops-architect     "configure CI/CD com GitHub Actions"
-@python-expert        "otimize este script de processamento de dados"
-@refactoring-expert   "refatore para seguir principios SOLID"
-@root-cause-analyst   "por que esta funcao falha apenas em producao?"
-@technical-writer     "documente esta API no formato OpenAPI 3.0"
-@deep-research-agent  "compare Redis vs Valkey para cache em 2026"
-@system-architect     "projete sistema de filas para processamento assincrono"
+@backend-architect     @frontend-architect    @security-engineer
+@performance-engineer  @quality-engineer      @devops-architect
+@python-expert         @refactoring-expert    @root-cause-analyst
+@technical-writer      @deep-research-agent   @system-architect
+@socratic-mentor       @requirements-analyst  @self-review
 ```
 
 ---
 
-### claude-squad — Multiplos agentes em paralelo
+### claude-squad — Multi-agente paralelo
+**[github.com/smtg-ai/claude-squad](https://github.com/smtg-ai/claude-squad)** · ⭐ 8k+
 
-Gerencia varias instancias do Claude Code ao mesmo tempo, cada uma com seu proprio workspace git isolado.
+Gerencia multiplas instancias do Claude Code ao mesmo tempo, cada uma com workspace git isolado.
 
-**Requisito:** tmux (Linux/Mac) ou WSL2 (Windows — `wsl --install` no PowerShell Admin)
+> Windows: requer WSL2 (`wsl --install` no PowerShell Admin + restart).
+> O script detecta e instala automaticamente.
 
 ```bash
 cs   # abre o painel
+
+# Atalhos:
+# n        → nova sessao
+# j/k ↑↓  → navegar
+# Enter    → entrar na sessao
+# s        → commit + push
+# D        → deletar
 ```
 
-**Atalhos no painel:**
-
-| Tecla | Acao |
-|---|---|
-| `n` | Nova sessao |
-| `j` / `k` ou `↑` / `↓` | Navegar entre sessoes |
-| `Enter` | Entrar na sessao / ver output |
-| `s` | Commit e push da sessao |
-| `c` | Pausar sessao |
-| `r` | Retomar sessao pausada |
-| `D` | Deletar sessao |
-| `q` | Sair |
-
-**Exemplo — frontend + backend + testes em paralelo:**
+**Exemplo — 3 agentes em paralelo:**
 ```
-cs
-→ n  →  "backend"   →  "implemente CRUD de usuarios com FastAPI"
-→ n  →  "frontend"  →  "implemente tela de usuarios com Next.js"
-→ n  →  "tests"     →  "escreva testes para a API de usuarios"
-# Todos rodam ao mesmo tempo. Use j/k para acompanhar cada um.
+→ n → "backend"  → "CRUD de usuarios com FastAPI"
+→ n → "frontend" → "tela de usuarios com Next.js"
+→ n → "tests"    → "testes para a API de usuarios"
+# Todos rodam ao mesmo tempo!
 ```
 
-**Quando usar:**
+---
 
-| Situacao | Ferramenta |
-|---|---|
-| Novo projeto do zero | GSD `/gsd-new-project` |
-| Feature que depende de outra | GSD fases em sequencia |
-| Features independentes simultaneas | claude-squad |
-| Tarefa rapida | `/gsd-quick` |
+### repomix
+**[github.com/yamadashy/repomix](https://github.com/yamadashy/repomix)** · ⭐ 20k+
+
+Empacota toda a codebase num arquivo otimizado para IA. Reduz drasticamente o uso de tokens.
+
+```bash
+npx repomix                          # projeto inteiro
+npx repomix --include "src/**/*.ts"  # so o que importa
+npx repomix --compress               # ainda menor
+```
 
 ---
 
 ### MCP Servers
 
-**context7** — documentacao sempre atualizada:
+**context7** — docs sempre atualizadas:
 ```bash
-# So adicionar "use context7" no prompt:
-"como usar o App Router do Next.js 15? use context7"
-"sintaxe de useEffect no React 19? use context7"
+"como usar App Router do Next.js 15? use context7"
 ```
 
 **sequential-thinking** — ativa automaticamente em tarefas complexas.
 
-**filesystem** — Claude acessa seus arquivos locais com seguranca.
-
-**Adicionar mais MCPs:**
+**Adicionar mais MCPs quando precisar:**
 ```bash
-claude mcp add github    -- npx -y "@modelcontextprotocol/server-github"
-claude mcp add postgres  -- npx -y "@modelcontextprotocol/server-postgres" "postgresql://..."
-claude mcp list          # ver MCPs configurados
-claude mcp remove nome   # remover
+claude mcp add github   -- npx -y "@modelcontextprotocol/server-github"
+claude mcp add postgres -- npx -y "@modelcontextprotocol/server-postgres" "postgresql://..."
+claude mcp list
 ```
 
 ---
 
-### repomix — menos tokens, mais contexto
+## Dicas para economizar tokens
 
-```bash
-npx repomix                            # projeto inteiro
-npx repomix --include "src/**/*.ts"    # so arquivos especificos
-npx repomix --ignore "node_modules"    # ignorar pastas pesadas
-npx repomix --compress                 # saida menor ainda
-```
-
-Gera `repomix-output.xml` — arraste para o chat do Claude Code para dar contexto completo sem abrir arquivo por arquivo.
+| Tecnica | Economia estimada | Como usar |
+|---|---|---|
+| repomix | 40-60% em contexto | `npx repomix` antes de iniciar |
+| context7 MCP | Elimina docs de memoria | Adicione `use context7` no prompt |
+| GSD wave execution | 30-50% em sessoes longas | Usar `/gsd-execute-phase` |
+| `/gsd-quick` | Sem overhead de planejamento | Tarefas simples e rapidas |
+| CLAUDE.md por projeto | Claude nao precisa perguntar | Arquivo na raiz do projeto |
 
 ---
 
-### CLAUDE.md — instrucoes persistentes por projeto
+## CLAUDE.md — template para seu projeto
 
-Crie um `CLAUDE.md` na raiz de cada projeto. O Claude le automaticamente a cada sessao:
+Crie na raiz de cada projeto. Claude le automaticamente a cada sessao:
 
 ```markdown
-# Meu Projeto
+# Nome do Projeto
 
 ## Stack
 - Backend: FastAPI + PostgreSQL
@@ -225,26 +205,12 @@ Crie um `CLAUDE.md` na raiz de cada projeto. O Claude le automaticamente a cada 
 ## Convencoes
 - Commits em ingles: feat/fix/docs/refactor
 - camelCase para variaveis, UPPER_SNAKE para constantes
-- Sempre criar testes para nova logica de negocio
+- Testes obrigatorios para nova logica de negocio
 ```
 
 ---
 
-## Dicas rapidas
-
-```bash
-ccusage           # ver quantos tokens consumiu
-ccusage --today   # so hoje
-
-# Atualizar tudo
-npx get-shit-done-cc@latest --claude --global    # GSD
-pip install --upgrade superclaude && \
-  PYTHONIOENCODING=utf-8 superclaude install     # SuperClaude
-```
-
----
-
-## Estrutura do `~/.claude` apos o setup
+## Estrutura apos o setup
 
 ```
 ~/.claude/
@@ -253,16 +219,33 @@ pip install --upgrade superclaude && \
 ├── commands/sc/       # 31 comandos SuperClaude
 ├── agents/            # 20 agentes SuperClaude + GSD
 ├── skills/            # 73 skills GSD
-├── hooks/             # 8 hooks GSD
+├── hooks/             # 8 hooks GSD (context monitor, guards, etc.)
 └── memory/            # auto-memoria do Claude Code
-~/.claude.json         # MCP servers
+~/.claude.json         # MCP servers (context7, sequential-thinking, filesystem)
+```
+
+---
+
+## Atualizando
+
+```bash
+# GSD
+npx get-shit-done-cc@latest --claude --global
+
+# SuperClaude (Windows)
+pip install --upgrade superclaude
+$env:PYTHONIOENCODING='utf-8'; superclaude install
+
+# SuperClaude (Linux/Mac)
+pip install --upgrade superclaude
+PYTHONIOENCODING=utf-8 superclaude install
 ```
 
 ---
 
 ## Contribuindo
 
-Encontrou uma ferramenta que deveria estar aqui? Abra uma issue ou PR!
+Encontrou uma ferramenta que deveria estar aqui? Abra uma **issue** ou **PR**!
 
 Por favor inclua:
 - Link do repositorio original
@@ -273,22 +256,13 @@ Por favor inclua:
 
 ## Creditos
 
-Este setup e uma colecao de ferramentas criadas pela comunidade.
-Todo o credito vai para os autores originais — veja [CREDITS.md](CREDITS.md).
+Todo o credito vai para os criadores das ferramentas originais.
+Veja [CREDITS.md](CREDITS.md) para a lista completa com links.
 
-Principais projetos:
-- [GSD](https://github.com/gsd-build/get-shit-done) por TACHES / gsd-build
-- [SuperClaude](https://github.com/SuperClaude-Org/SuperClaude_Framework) por SuperClaude-Org
-- [repomix](https://github.com/yamadashy/repomix) por yamadashy
-- [claude-squad](https://github.com/smtg-ai/claude-squad) por smtg-ai
-- [task-master](https://github.com/eyaltoledano/claude-task-master) por eyaltoledano
-- [ccusage](https://github.com/ryoppippi/ccusage) por ryoppippi
-- [context7](https://github.com/upstash/context7) por Upstash
-- [MCP Servers](https://github.com/modelcontextprotocol/servers) por Anthropic
+Este projeto contribui com: scripts de automacao, curadoria, documentacao em PT-BR.
 
 ---
 
 ## Licenca
 
-MIT — use, modifique e distribua livremente.
-Veja [LICENSE](LICENSE) para detalhes.
+MIT — use, modifique e distribua livremente. Veja [LICENSE](LICENSE).
