@@ -201,21 +201,17 @@ Reduz alucinacoes e tokens de "contexto defensivo".
 
 ## CONFIGURACAO MCP COMPLETA
 
-O arquivo `~/.claude/settings.json` foi atualizado com os MCP servers.
-Para adicionar mais MCPs manualmente:
+MCPs NO ficam em `settings.json`. Ficam em `~/.claude.json` e sao gerenciados via CLI:
 
-```json
-{
-  "mcpServers": {
-    "nome-do-servidor": {
-      "command": "npx",
-      "args": ["-y", "pacote-npm"],
-      "env": {
-        "VARIAVEL": "valor"
-      }
-    }
-  }
-}
+```bash
+# Adicionar MCP (sintaxe correta)
+claude mcp add nome-do-servidor -- npx -y "pacote-npm"
+
+# Listar MCPs configurados
+claude mcp list
+
+# Remover MCP
+claude mcp remove nome-do-servidor
 ```
 
 ### MCPs Recomendados Extras (instalar quando precisar)
