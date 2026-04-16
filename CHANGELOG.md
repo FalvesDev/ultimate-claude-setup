@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.1] - 2026-04-16
+
+### Alterado
+- Movidos `ultimate-claude.md` e `INSTALL_LOG.md` para a pasta `docs/`
+- README atualizado com secao de documentacao e links para `docs/`
+- Scripts de instalacao ajustados para referenciar novo caminho `docs/ultimate-claude.md`
+
+---
+
 ## [1.0.0] - 2026-04-16
 
 ### Adicionado
