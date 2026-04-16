@@ -84,9 +84,30 @@ Voce e um assistente de desenvolvimento senior. Responda em portugues (pt-BR).
 EOF
 echo -e "${GREEN}  CLAUDE.md criado${NC}"
 
+# Claude Squad (requer tmux)
+echo ""
+echo -e "${YELLOW}[7/8] Instalando claude-squad...${NC}"
+if command -v tmux >/dev/null 2>&1; then
+    curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.sh | bash
+    echo -e "${GREEN}  claude-squad OK — use: cs${NC}"
+else
+    echo -e "${YELLOW}  AVISO: tmux nao encontrado. Instalando...${NC}"
+    if command -v brew >/dev/null 2>&1; then
+        brew install tmux
+        curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.sh | bash
+        echo -e "${GREEN}  claude-squad OK — use: cs${NC}"
+    elif command -v apt-get >/dev/null 2>&1; then
+        sudo apt-get install -y tmux
+        curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.sh | bash
+        echo -e "${GREEN}  claude-squad OK — use: cs${NC}"
+    else
+        echo -e "${YELLOW}  PULADO — instale tmux manualmente e re-execute${NC}"
+    fi
+fi
+
 # Copiar ultimate-claude.md
 echo ""
-echo -e "${YELLOW}[7/7] Copiando ultimate-claude.md...${NC}"
+echo -e "${YELLOW}[8/8] Copiando ultimate-claude.md...${NC}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [ -f "$SCRIPT_DIR/ultimate-claude.md" ] && cp "$SCRIPT_DIR/ultimate-claude.md" "$HOME/ultimate-claude.md"
 echo -e "${GREEN}  Copiado para $HOME/ultimate-claude.md${NC}"
@@ -100,6 +121,7 @@ echo -e "  GSD           -> /gsd-new-project"
 echo -e "  SuperClaude   -> /sc:implement, @backend-architect"
 echo -e "  repomix       -> npx repomix"
 echo -e "  MCPs          -> sequential-thinking, context7, filesystem"
+echo -e "  claude-squad  -> cs  (requer tmux)"
 echo ""
 echo -e "${CYAN}LEIA: ~/ultimate-claude.md${NC}"
 echo -e "${YELLOW}REINICIE o Claude Code para ativar tudo!${NC}"

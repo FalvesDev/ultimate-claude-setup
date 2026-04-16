@@ -114,9 +114,26 @@ Voce e um assistente de desenvolvimento senior. Responda sempre em portugues (pt
 Set-Content -Path "$claudeDir\CLAUDE.md" -Value $claudeMd -Encoding UTF8
 Write-Host "  CLAUDE.md criado em $claudeDir" -ForegroundColor Green
 
+# Claude Squad (requer tmux via WSL2 no Windows)
+Write-Host ""
+Write-Host "[7/8] Claude Squad..." -ForegroundColor Yellow
+$wslOk = $null -ne (Get-Command wsl -ErrorAction SilentlyContinue)
+if ($wslOk) {
+    Write-Host "  WSL2 detectado! Instalando claude-squad no WSL2..." -ForegroundColor Green
+    wsl bash -c "curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.sh | bash"
+    Write-Host "  claude-squad OK — no WSL2: cs" -ForegroundColor Green
+} else {
+    Write-Host "  AVISO: claude-squad requer WSL2 (nao instalado)" -ForegroundColor Yellow
+    Write-Host "  Para instalar WSL2:" -ForegroundColor White
+    Write-Host "    1. Abra PowerShell como Administrador" -ForegroundColor Gray
+    Write-Host "    2. Execute: wsl --install" -ForegroundColor Gray
+    Write-Host "    3. Reinicie o PC" -ForegroundColor Gray
+    Write-Host "    4. No terminal WSL2, execute: curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.sh | bash" -ForegroundColor Gray
+}
+
 # Copiar ultimate-claude.md
 Write-Host ""
-Write-Host "[7/7] Copiando ultimate-claude.md..." -ForegroundColor Yellow
+Write-Host "[8/8] Copiando ultimate-claude.md..." -ForegroundColor Yellow
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 if (Test-Path "$scriptDir\ultimate-claude.md") {
     Copy-Item "$scriptDir\ultimate-claude.md" "$env:USERPROFILE\ultimate-claude.md" -Force
@@ -136,6 +153,7 @@ Write-Host "  repomix        -> npx repomix" -ForegroundColor Green
 Write-Host "  ccusage        -> ccusage" -ForegroundColor Green
 Write-Host "  task-master    -> task-master" -ForegroundColor Green
 Write-Host "  MCP: sequential-thinking, context7, filesystem" -ForegroundColor Green
+Write-Host "  claude-squad  -> cs (requer WSL2)" -ForegroundColor Yellow
 Write-Host ""
 Write-Host "LEIA: $env:USERPROFILE\ultimate-claude.md" -ForegroundColor Cyan
 Write-Host ""
