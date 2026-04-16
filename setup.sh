@@ -109,7 +109,7 @@ fi
 echo ""
 echo -e "${YELLOW}[8/8] Copiando ultimate-claude.md...${NC}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-[ -f "$SCRIPT_DIR/ultimate-claude.md" ] && cp "$SCRIPT_DIR/ultimate-claude.md" "$HOME/ultimate-claude.md"
+[ -f "$SCRIPT_DIR/docs/ultimate-claude.md" ] && cp "$SCRIPT_DIR/docs/ultimate-claude.md" "$HOME/ultimate-claude.md"
 echo -e "${GREEN}  Copiado para $HOME/ultimate-claude.md${NC}"
 
 echo ""

@@ -135,8 +135,8 @@ if ($wslOk) {
 Write-Host ""
 Write-Host "[8/8] Copiando ultimate-claude.md..." -ForegroundColor Yellow
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-if (Test-Path "$scriptDir\ultimate-claude.md") {
-    Copy-Item "$scriptDir\ultimate-claude.md" "$env:USERPROFILE\ultimate-claude.md" -Force
+if (Test-Path "$scriptDir\docs\ultimate-claude.md") {
+    Copy-Item "$scriptDir\docs\ultimate-claude.md" "$env:USERPROFILE\ultimate-claude.md" -Force
     Write-Host "  Copiado para $env:USERPROFILE\ultimate-claude.md" -ForegroundColor Green
 }
 
