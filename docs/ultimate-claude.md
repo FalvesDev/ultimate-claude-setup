@@ -76,6 +76,40 @@
 
 ---
 
+## FRONTEND DESIGN PLUGIN
+
+- **Pagina:** https://claude.com/plugins/frontend-design
+- **Instalado em:** `~/.claude/` (escopo user)
+- **O que faz:** Transforma o Claude num designer de UI de alto nivel. Ativa automaticamente em qualquer pedido de interface frontend. Evita estetica generica ("AI slop") e forca escolhas visuais distintas.
+
+**Como usar:**
+```
+# Apenas descreva o que quer — o plugin ativa sozinho
+"Crie uma landing page para um SaaS de monitoramento"
+"Dashboard de analytics com tema escuro"
+"Componente de card com animacoes"
+```
+
+**Dica:** Use Shift+Tab (modo planejamento) antes de pedir uma UI para revisar a direcao estetica antes de codificar.
+
+**O que ele evita:**
+- Fontes: Inter, Roboto, Arial
+- Cores: gradiente roxo em fundo branco
+- Layouts previsíveis e sem carater
+
+**O que ele usa:**
+- Tipografia distinta e contextual
+- CSS variables para coerencia de cor
+- Animacoes de alto impacto
+- Composicao espacial inesperada (assimetria, sobreposicao, grade quebrada)
+
+**Para instalar manualmente:**
+```bash
+claude plugins install frontend-design
+```
+
+---
+
 ## MCP SERVERS CONFIGURADOS
 
 Configurados em `~/.claude/settings.json`:
@@ -279,6 +313,7 @@ O script instala tudo automaticamente e configura o `~/.claude/settings.json`.
 | MCP Sequential Thinking | CONFIGURADO | latest |
 | MCP Context7 | CONFIGURADO | latest |
 | MCP Filesystem | CONFIGURADO | latest |
+| Frontend Design Plugin | INSTALADO | latest |
 
 ---
 

@@ -6,11 +6,11 @@ set -e
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
 
 echo -e "${CYAN}=== ULTIMATE CLAUDE CODE SETUP ===${NC}"
-echo -e "${NC}Versao: 1.0 | Data: 2026-04-16${NC}"
+echo -e "${NC}Versao: 1.2 | Data: 2026-04-23${NC}"
 echo ""
 
 # Pre-requisitos
-echo -e "${YELLOW}[1/7] Verificando pre-requisitos...${NC}"
+echo -e "${YELLOW}[1/9] Verificando pre-requisitos...${NC}"
 command -v node >/dev/null 2>&1 || { echo -e "${RED}ERRO: Node.js nao encontrado. Instale: https://nodejs.org${NC}"; exit 1; }
 command -v npm  >/dev/null 2>&1 || { echo -e "${RED}ERRO: npm nao encontrado.${NC}"; exit 1; }
 echo -e "  Node: $(node --version)"
@@ -18,20 +18,20 @@ echo -e "  npm:  $(npm --version)"
 
 # GSD
 echo ""
-echo -e "${YELLOW}[2/7] Instalando GSD (Get Shit Done)...${NC}"
+echo -e "${YELLOW}[2/9] Instalando GSD (Get Shit Done)...${NC}"
 npx get-shit-done-cc@latest --claude --global
 echo -e "${GREEN}  GSD instalado!${NC}"
 
 # NPM Tools
 echo ""
-echo -e "${YELLOW}[3/7] Instalando ferramentas npm globais...${NC}"
+echo -e "${YELLOW}[3/9] Instalando ferramentas npm globais...${NC}"
 npm install -g repomix     && echo -e "${GREEN}  repomix OK${NC}"
 npm install -g ccusage     && echo -e "${GREEN}  ccusage OK${NC}"
 npm install -g task-master-ai && echo -e "${GREEN}  task-master-ai OK${NC}"
 
 # SuperClaude
 echo ""
-echo -e "${YELLOW}[4/7] Instalando SuperClaude...${NC}"
+echo -e "${YELLOW}[4/9] Instalando SuperClaude...${NC}"
 if command -v pip >/dev/null 2>&1; then
     pip install superclaude
     PYTHONIOENCODING=utf-8 superclaude install
@@ -46,7 +46,7 @@ fi
 
 # MCP Servers
 echo ""
-echo -e "${YELLOW}[5/7] Configurando MCP Servers...${NC}"
+echo -e "${YELLOW}[5/9] Configurando MCP Servers...${NC}"
 claude mcp add sequential-thinking -- npx -y "@modelcontextprotocol/server-sequential-thinking"
 echo -e "${GREEN}  sequential-thinking OK${NC}"
 
@@ -58,7 +58,7 @@ echo -e "${GREEN}  filesystem OK${NC}"
 
 # CLAUDE.md
 echo ""
-echo -e "${YELLOW}[6/7] Criando CLAUDE.md global...${NC}"
+echo -e "${YELLOW}[6/9] Criando CLAUDE.md global...${NC}"
 mkdir -p "$HOME/.claude"
 cat > "$HOME/.claude/CLAUDE.md" << 'EOF'
 # Instrucoes Globais do Claude
@@ -86,7 +86,7 @@ echo -e "${GREEN}  CLAUDE.md criado${NC}"
 
 # Claude Squad (requer tmux)
 echo ""
-echo -e "${YELLOW}[7/8] Instalando claude-squad...${NC}"
+echo -e "${YELLOW}[7/9] Instalando claude-squad...${NC}"
 if command -v tmux >/dev/null 2>&1; then
     curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.sh | bash
     echo -e "${GREEN}  claude-squad OK — use: cs${NC}"
@@ -107,10 +107,15 @@ fi
 
 # Copiar ultimate-claude.md
 echo ""
-echo -e "${YELLOW}[8/8] Copiando ultimate-claude.md...${NC}"
+echo -e "${YELLOW}[8/9] Copiando ultimate-claude.md...${NC}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [ -f "$SCRIPT_DIR/docs/ultimate-claude.md" ] && cp "$SCRIPT_DIR/docs/ultimate-claude.md" "$HOME/ultimate-claude.md"
 echo -e "${GREEN}  Copiado para $HOME/ultimate-claude.md${NC}"
+
+# Frontend Design Plugin
+echo ""
+echo -e "${YELLOW}[9/9] Instalando plugin frontend-design...${NC}"
+claude plugins install frontend-design 2>/dev/null && echo -e "${GREEN}  frontend-design OK (UI distintiva, sem AI slop)${NC}" || echo -e "${YELLOW}  frontend-design: reinicie o Claude Code e execute 'claude plugins install frontend-design'${NC}"
 
 echo ""
 echo -e "${CYAN}=================================${NC}"
@@ -122,6 +127,7 @@ echo -e "  SuperClaude   -> /sc:implement, @backend-architect"
 echo -e "  repomix       -> npx repomix"
 echo -e "  MCPs          -> sequential-thinking, context7, filesystem"
 echo -e "  claude-squad  -> cs  (requer tmux)"
+echo -e "  frontend-design -> plugin ativo (UI distintiva)"
 echo ""
 echo -e "${CYAN}LEIA: ~/ultimate-claude.md${NC}"
 echo -e "${YELLOW}REINICIE o Claude Code para ativar tudo!${NC}"

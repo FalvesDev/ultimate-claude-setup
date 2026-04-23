@@ -38,6 +38,7 @@ Configurar o Claude Code com todas as melhores ferramentas da comunidade leva ho
 | [ccusage](https://github.com/ryoppippi/ccusage) | ⭐ 3k+ | 🍴 200 | Dashboard de consumo de tokens |
 | [context7 MCP](https://github.com/upstash/context7) | ⭐ 15k+ | 🍴 800 | Docs atualizadas em tempo real |
 | [MCP Servers](https://github.com/modelcontextprotocol/servers) | ⭐ 14k+ | 🍴 1.5k | Sequential thinking + filesystem |
+| [Frontend Design Plugin](https://claude.com/plugins/frontend-design) | oficial | — | UI distintiva, sem AI slop |
 
 **Total de stars curadas: ~153k+** — o melhor do ecossistema Claude Code em um lugar so.
 
@@ -173,6 +174,28 @@ claude mcp list
 
 ---
 
+### Frontend Design Plugin
+**[claude.com/plugins/frontend-design](https://claude.com/plugins/frontend-design)** · oficial Anthropic · 500k+ installs
+
+Plugin oficial da Anthropic que transforma o Claude num designer de UI de alto nivel. Ativa automaticamente em qualquer pedido de interface frontend, forcando escolhas visuais distintas e evitando a estetica generica de "AI slop".
+
+**Nao usa:** Inter, Roboto, gradiente roxo em fundo branco, layouts previsivos.
+**Usa:** Tipografia distinta, CSS vars coesos, animacoes, composicao espacial inesperada.
+
+```bash
+# Instalado automaticamente pelo setup. Para instalar manualmente:
+claude plugins install frontend-design
+
+# Uso: apenas descreva a interface que quer
+"Crie uma landing page para um SaaS de monitoramento"
+"Construa um dashboard com tema escuro"
+"Faca um card de produto com animacoes"
+```
+
+> Dica: use **Shift+Tab** antes de pedir uma UI para entrar no modo de planejamento e revisar a direcao estetica antes do Claude escrever o codigo.
+
+---
+
 ## Dicas para economizar tokens
 
 | Tecnica | Economia estimada | Como usar |
@@ -214,12 +237,13 @@ Crie na raiz de cada projeto. Claude le automaticamente a cada sessao:
 
 ```
 ~/.claude/
-├── settings.json      # hooks GSD + statusline
+├── settings.json      # hooks GSD + statusline + plugins
 ├── CLAUDE.md          # instrucoes globais
 ├── commands/sc/       # 31 comandos SuperClaude
 ├── agents/            # 20 agentes SuperClaude + GSD
-├── skills/            # 73 skills GSD
-├── hooks/             # 8 hooks GSD (context monitor, guards, etc.)
+├── skills/            # 81 skills GSD
+├── hooks/             # hooks GSD (context monitor, guards, etc.)
+├── plugins/           # frontend-design plugin
 └── memory/            # auto-memoria do Claude Code
 ~/.claude.json         # MCP servers (context7, sequential-thinking, filesystem)
 ```
