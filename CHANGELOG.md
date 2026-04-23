@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0] - 2026-04-23
+
+### Adicionado
+- Frontend Design Plugin (oficial Anthropic) — instalado automaticamente nos scripts Windows e Linux/Mac
+- Documentacao completa do plugin em `docs/ultimate-claude.md`
+- Secao do plugin no README com exemplos de uso e dicas
+
+### Corrigido
+- Contador de passos inconsistente nos scripts (`[1/7]` a `[7/8]` corrigido para `[1/9]` a `[9/9]`)
+- `setup.sh` agora detecta `pip3` como fallback quando `pip` nao esta disponivel
+
+---
+
 ## [1.0.1] - 2026-04-16
 
 ### Alterado
