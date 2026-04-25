@@ -142,9 +142,23 @@ if (Test-Path "$scriptDir\docs\ultimate-claude.md") {
 
 # Frontend Design Plugin
 Write-Host ""
-Write-Host "[9/9] Instalando plugin frontend-design..." -ForegroundColor Yellow
+Write-Host "[9/10] Instalando plugin frontend-design..." -ForegroundColor Yellow
 claude plugins install frontend-design 2>&1 | Out-Null
 Write-Host "  frontend-design OK (UI distintiva, sem AI slop)" -ForegroundColor Green
+
+# Caveman Skill
+Write-Host ""
+Write-Host "[10/10] Instalando Caveman Skill..." -ForegroundColor Yellow
+$skillsDir = "$env:USERPROFILE\.claude\skills"
+if (-not (Test-Path $skillsDir)) { New-Item -ItemType Directory -Path $skillsDir | Out-Null }
+$scriptDirPs = Split-Path -Parent $MyInvocation.MyCommand.Path
+if (Test-Path "$scriptDirPs\skills\caveman.md") {
+    Copy-Item "$scriptDirPs\skills\caveman.md" "$skillsDir\caveman.md" -Force
+    Write-Host "  Caveman Skill instalado em $skillsDir\caveman.md" -ForegroundColor Green
+    Write-Host "  Ative em: https://claude.ai/customize/skills (cole o conteudo do arquivo)" -ForegroundColor Yellow
+} else {
+    Write-Host "  AVISO: skills\caveman.md nao encontrado" -ForegroundColor Yellow
+}
 
 # Resumo
 Write-Host ""
@@ -161,6 +175,7 @@ Write-Host "  task-master    -> task-master" -ForegroundColor Green
 Write-Host "  MCP: sequential-thinking, context7, filesystem" -ForegroundColor Green
 Write-Host "  claude-squad  -> cs (requer WSL2)" -ForegroundColor Yellow
 Write-Host "  frontend-design -> plugin ativo (UI distinctiva)" -ForegroundColor Green
+  Write-Host "  caveman skill  -> /caveman (economiza ~75% tokens)" -ForegroundColor Green
 Write-Host ""
 Write-Host "LEIA: $env:USERPROFILE\ultimate-claude.md" -ForegroundColor Cyan
 Write-Host ""

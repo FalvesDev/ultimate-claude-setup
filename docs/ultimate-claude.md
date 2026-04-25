@@ -110,6 +110,43 @@ claude plugins install frontend-design
 
 ---
 
+## CAVEMAN SKILL
+
+- **Repo de referencia:** https://github.com/xbiks222/Claude---Caveman-
+- **Instalado em:** `~/.claude/skills/caveman.md`
+- **O que faz:** Modo de comunicacao ultra-comprimido estilo "homem das cavernas". Reduz uso de tokens ~75% mantendo toda a precisao tecnica. Ideal para sessoes longas onde cada token conta.
+
+**Como instalar manualmente:**
+1. Abra: https://claude.ai/customize/skills
+2. Clique "+" → Create Skill → "Write Skill Instructions"
+3. Nome: `Caveman` | Descricao: `Ultra-compressed communication mode`
+4. Cole o conteudo de `skills/caveman.md` deste repo
+5. Salve e use `/caveman` no chat
+
+**Niveis de intensidade:**
+```
+/caveman lite   -> Sem filler/hedging. Frases completas, tom profissional
+/caveman full   -> Sem artigos, fragmentos OK. Caveman classico (padrao)
+/caveman ultra  -> Abreviacoes maximas (DB/auth/fn), setas causais (X → Y)
+```
+
+**Como ativar:**
+```
+/caveman          -> Ativa modo full (padrao)
+caveman mode      -> Ativa automaticamente
+less tokens       -> Ativa automaticamente
+stop caveman      -> Desativa, volta ao normal
+```
+
+**O que economiza tokens:**
+- Remove: artigos, filler words (just/really/basically), saudacoes, hedging
+- Mantem: termos tecnicos exatos, blocos de codigo intactos, erros literais
+- Exemplo — "Why React re-render?" → "New obj ref each render. useMemo."
+
+**Auto-clareza:** Sai do modo caveman automaticamente para avisos de seguranca, acoes irreversiveis e sequencias multi-passo confusas.
+
+---
+
 ## MCP SERVERS CONFIGURADOS
 
 Configurados em `~/.claude/settings.json`:
@@ -276,6 +313,7 @@ claude mcp add notion -- npx -y @notionhq/notion-mcp-server
 ├── agents/                # 20 agentes SuperClaude + agentes GSD
 ├── skills/                # 73 skills GSD
 ├── hooks/                 # Hooks GSD (context monitor, injection guard, etc.)
+├── skills/                # Skills instaladas (caveman, etc.)
 └── memory/                # Auto-memoria persistente
 ```
 
@@ -314,8 +352,10 @@ O script instala tudo automaticamente e configura o `~/.claude/settings.json`.
 | MCP Context7 | CONFIGURADO | latest |
 | MCP Filesystem | CONFIGURADO | latest |
 | Frontend Design Plugin | INSTALADO | latest |
+| Caveman Skill | INSTALADO | latest |
 
 ---
 
 *Para atualizar o GSD: `npx get-shit-done-cc@latest --claude --global`*
 *Para atualizar SuperClaude: `pip install --upgrade superclaude && superclaude install`*
+
