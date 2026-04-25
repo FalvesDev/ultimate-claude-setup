@@ -114,10 +114,23 @@ echo -e "${GREEN}  Copiado para $HOME/ultimate-claude.md${NC}"
 
 # Frontend Design Plugin
 echo ""
-echo -e "${YELLOW}[9/9] Instalando plugin frontend-design...${NC}"
+echo -e "${YELLOW}[9/10] Instalando plugin frontend-design...${NC}"
 claude plugins install frontend-design 2>/dev/null && echo -e "${GREEN}  frontend-design OK (UI distintiva, sem AI slop)${NC}" || echo -e "${YELLOW}  frontend-design: reinicie o Claude Code e execute 'claude plugins install frontend-design'${NC}"
 
 echo ""
+
+# Caveman Skill
+echo ""
+echo -e "${YELLOW}[10/10] Instalando Caveman Skill...${NC}"
+mkdir -p "$HOME/.claude/skills"
+SCRIPT_DIR_CAVEMAN="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR_CAVEMAN/skills/caveman.md" ]; then
+    cp "$SCRIPT_DIR_CAVEMAN/skills/caveman.md" "$HOME/.claude/skills/caveman.md"
+    echo -e "${GREEN}  Caveman Skill instalado em ~/.claude/skills/caveman.md${NC}"
+    echo -e "${YELLOW}  Ative em: https://claude.ai/customize/skills (cole o conteudo do arquivo)${NC}"
+else
+    echo -e "${YELLOW}  AVISO: skills/caveman.md nao encontrado${NC}"
+fi
 echo -e "${CYAN}=================================${NC}"
 echo -e "${GREEN}SETUP COMPLETO!${NC}"
 echo -e "${CYAN}=================================${NC}"
@@ -128,6 +141,7 @@ echo -e "  repomix       -> npx repomix"
 echo -e "  MCPs          -> sequential-thinking, context7, filesystem"
 echo -e "  claude-squad  -> cs  (requer tmux)"
 echo -e "  frontend-design -> plugin ativo (UI distintiva)"
+  echo -e "  caveman skill -> /caveman (economiza ~75% tokens)"
 echo ""
 echo -e "${CYAN}LEIA: ~/ultimate-claude.md${NC}"
 echo -e "${YELLOW}REINICIE o Claude Code para ativar tudo!${NC}"
