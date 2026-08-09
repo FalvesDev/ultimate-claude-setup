@@ -115,13 +115,13 @@ $claudeMdPath = "$claudeDir\CLAUDE.md"
 if (Test-Path $claudeMdPath) {
     $bak = "$claudeMdPath.bak.$(Get-Date -Format 'yyyyMMdd-HHmmss')"
     Copy-Item $claudeMdPath $bak -Force
-    Write-Host "  CLAUDE.md ja existia — backup em $bak" -ForegroundColor Yellow
+    Write-Host "  CLAUDE.md ja existia - backup em $bak" -ForegroundColor Yellow
     Write-Host "  Reaplique suas regras customizadas apos o setup." -ForegroundColor Yellow
 }
 Set-Content -Path $claudeMdPath -Value $claudeMd -Encoding UTF8
 Write-Host "  CLAUDE.md criado em $claudeDir" -ForegroundColor Green
 
-# graphify — o pacote PyPI se chama 'graphifyy'; o CLI e a skill sao 'graphify'.
+# graphify - o pacote PyPI se chama 'graphifyy'; o CLI e a skill sao 'graphify'.
 # Roda DEPOIS do CLAUDE.md: 'graphify install' anexa o proprio bloco de trigger ao arquivo,
 # e o passo anterior sobrescreve o CLAUDE.md por completo.
 Write-Host ""
@@ -134,7 +134,7 @@ if ($pipOk) {
         Write-Host "  Tente: pipx install graphifyy" -ForegroundColor Yellow
     } elseif ($null -ne (Get-Command graphify -ErrorAction SilentlyContinue)) {
         graphify install 2>&1
-        Write-Host "  graphify OK — use: /graphify" -ForegroundColor Green
+        Write-Host "  graphify OK - use: /graphify" -ForegroundColor Green
         # Se o 'install' nao anexou o trigger (formato mudou), escreve um fallback.
         if (-not (Select-String -Path $claudeMdPath -Pattern 'graphify' -Quiet)) {
             $graphifyBlock = @"
@@ -161,7 +161,7 @@ $wslOk = $null -ne (Get-Command wsl -ErrorAction SilentlyContinue)
 if ($wslOk) {
     Write-Host "  WSL2 detectado! Instalando claude-squad no WSL2..." -ForegroundColor Green
     wsl bash -c "curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.sh | bash"
-    Write-Host "  claude-squad OK — no WSL2: cs" -ForegroundColor Green
+    Write-Host "  claude-squad OK - no WSL2: cs" -ForegroundColor Green
 } else {
     Write-Host "  AVISO: claude-squad requer WSL2 (nao instalado)" -ForegroundColor Yellow
     Write-Host "  Para instalar WSL2:" -ForegroundColor White
