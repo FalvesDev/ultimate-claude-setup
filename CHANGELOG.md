@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.3.0] - 2026-08-07
+
+### Adicionado
+- **graphify** ([Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify)) — instalado
+  automaticamente nos tres scripts via PyPI `graphifyy` + `graphify install`. Transforma qualquer
+  pasta num grafo de conhecimento consultavel (`/graphify`, `/graphify query`, `/graphify path`)
+- Backup datado do `~/.claude/CLAUDE.md` (`CLAUDE.md.bak.AAAAMMDD-HHMMSS`) antes de sobrescrever,
+  em `setup.sh` e `setup.ps1`
+- Suporte a Fedora 40+ e RHEL/Rocky/Alma/CentOS Stream 9-10 em `setup.sh` e `update.sh`
+- Deteccao automatica de distro via `/etc/os-release` (familias `rhel`, `debian`, `brew`)
+- Instalacao de dependencias faltando (git, Node.js, tmux, pipx) com confirmacao do usuario
+- Flags `--yes`, `--dry-run` e `--detect-only` em `setup.sh`
+- Variavel `UCS_FORCE_FAMILY` para testar outras familias de distro sem trocar de maquina
+- Resumo de avisos ao final da execucao
+
+### Corrigido
+- **claude-squad nunca era instalado no Fedora/RHEL** — a instalacao do tmux so cobria `brew` e `apt-get`
+- **SuperClaude falhava no Fedora/RHEL** — o Python do sistema e `externally-managed` (PEP 668);
+  agora a instalacao usa `pipx`, com fallback para venv em `~/.claude/venv-superclaude`
+- `set -e` combinado com a ausencia do CLI `claude` abortava o script no passo dos MCPs,
+  pulando CLAUDE.md, `ultimate-claude.md` e a Caveman Skill
+- `npm install -g` falhava com `EACCES` quando o Node vinha do gerenciador de pacotes
+  (prefix `/usr`); o prefix agora e movido para `$HOME/.local` quando nao e gravavel
+- `~/.local/bin` e adicionado ao `PATH` da sessao, com instrucao para persistir
+- `setup.ps1`: backticks de markdown no here-string `@"..."@` eram interpretados como escape do
+  PowerShell (`` `npx repomix` `` inseria uma quebra de linha no `CLAUDE.md` gerado)
+- Contador de passos padronizado para `[1/11]`..`[11/11]` nos scripts Linux/Mac e Windows
+- **graphify passou a rodar depois do CLAUDE.md** — `graphify install` anexa o proprio bloco de
+  trigger ao `~/.claude/CLAUDE.md`, e o passo do CLAUDE.md sobrescrevia o arquivo inteiro logo em
+  seguida, apagando o bloco. O template deixou de duplicar o trigger; se o `install` nao anexar
+  nada, os scripts escrevem um bloco de fallback
+- `setup.ps1`: `pip install graphifyy` tinha o erro engolido por `Out-Null` e a falha era reportada
+  como "graphify nao esta no PATH"; agora `$LASTEXITCODE` e checado e as ultimas linhas do pip aparecem
+
+---
+
 ## [1.2.0] - 2026-04-23
 
 ### Adicionado

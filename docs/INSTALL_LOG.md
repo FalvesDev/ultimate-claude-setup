@@ -7,18 +7,44 @@ Util para entender o que cada ferramenta faz e como foi integrada.
 
 ## Ambiente suportado
 
-| Sistema | Status |
-|---|---|
-| Windows 10/11 (Node + Python + Git) | Testado |
-| Ubuntu 22+ | Testado |
-| macOS 13+ | Testado |
-| WSL2 (Windows) | Necessario para claude-squad |
+| Sistema | Gerenciador de pacotes | Status |
+|---|---|---|
+| Windows 10/11 (Node + Python + Git) | — | Testado |
+| Ubuntu 22+ / Debian | `apt-get` | Testado |
+| Fedora 40+ | `dnf5` / `dnf` | Testado (F43) |
+| RHEL / Rocky / Alma / CentOS Stream 9-10 | `dnf` | Suportado |
+| macOS 13+ | `brew` | Testado |
+| WSL2 (Windows) | `apt-get` | Necessario para claude-squad |
+
+RHEL 8 **nao** e suportado: o `python3` padrao e 3.6 e exigiria module streams.
 
 **Versoes minimas recomendadas:**
-- Node.js 18+ (testado em v24)
-- npm 9+ (testado em v11)
-- Python 3.10+ (testado em 3.12)
+- Node.js 18+ (testado em v24 e v26)
+- npm 9+ (testado em v11 e v12)
+- Python 3.10+ (testado em 3.12 e 3.14)
 - git 2.40+
+
+### Deteccao de plataforma
+
+O `setup.sh` le `/etc/os-release` e classifica a distro em uma familia por `ID` e `ID_LIKE`:
+
+| Familia | Detectada por | Gerenciador |
+|---|---|---|
+| `rhel` | `ID`/`ID_LIKE` contem `fedora`, `rhel` ou `centos` | `dnf5` > `dnf` > `yum` |
+| `debian` | `ID`/`ID_LIKE` contem `debian` ou `ubuntu` | `apt-get` |
+| `brew` | `uname -s` = `Darwin` | `brew` |
+| `unknown` | nenhum dos acima | nenhum — so reporta |
+
+```bash
+./setup.sh --detect-only  # imprime OS_ID, OS_VERSION, PKG_FAMILY, PKG_MGR
+./setup.sh --dry-run      # imprime todo comando sem executar
+./setup.sh --yes          # nao pergunta antes de instalar dependencias
+
+UCS_FORCE_FAMILY=debian ./setup.sh --dry-run   # simula outra familia
+```
+
+Dependencias faltando (git, Node.js, npm, tmux, pipx) sao instaladas apenas apos
+confirmacao. Sem `sudo` ou em familia `unknown`, o script imprime o comando e segue.
 
 ---
 
@@ -126,15 +152,30 @@ npm install -g task-master-ai
 
 **Instalacao:**
 ```bash
+# Windows
 pip install superclaude
-
-# Windows (fix de encoding para emojis)
-$env:PYTHONIOENCODING = 'utf-8'
+$env:PYTHONIOENCODING = 'utf-8'   # fix de encoding para emojis
 superclaude install
 
-# Linux/Mac
+# Linux/Mac — pipx, nao pip
+pipx install superclaude
 PYTHONIOENCODING=utf-8 superclaude install
 ```
+
+**Por que pipx e nao pip (PEP 668):** Fedora, RHEL e Debian modernos marcam o Python do
+sistema como *externally managed* (arquivo `EXTERNALLY-MANAGED` ao lado da stdlib).
+`pip install superclaude` aborta com `error: externally-managed-environment`. O `pipx`
+cria um venv isolado e coloca o binario em `~/.local/bin` — e o caminho suportado pelas
+distros. Em RHEL/Rocky/Alma o pacote `pipx` vem do EPEL:
+
+```bash
+sudo dnf install -y epel-release
+sudo dnf install -y pipx
+```
+
+**Fallback automatico:** se o `pipx` nao estiver disponivel, o `setup.sh` cria
+`~/.claude/venv-superclaude` com `python3 -m venv` e faz symlink do binario em
+`~/.local/bin/superclaude`. O `update.sh` detecta qual dos dois caminhos foi usado.
 
 **31 comandos instalados em `~/.claude/commands/sc/`:**
 ```
@@ -157,6 +198,54 @@ PYTHONIOENCODING=utf-8 superclaude install
 @security-engineer      @self-review             @socratic-mentor
 @system-architect       @technical-writer
 ```
+
+---
+
+## 5b. graphify
+
+**Repositorio:** https://github.com/Graphify-Labs/graphify
+**Pacote PyPI:** `graphifyy` (o nome `graphify` esta sendo reivindicado; o CLI e a skill
+continuam se chamando `graphify`)
+
+**Instalacao:**
+```bash
+# Linux/Mac — pipx (PEP 668)
+pipx install graphifyy
+graphify install
+
+# Windows
+pip install graphifyy
+graphify install
+```
+
+`graphify install` registra a skill em `~/.claude/skills/graphify/` (`SKILL.md` + `references/`)
+e adiciona a linha de trigger ao `~/.claude/CLAUDE.md`. O backend Python resolve o interpretador
+sozinho (uv tool, pipx, venv ou system) e grava em `graphify-out/.graphify_python`.
+
+**Requisito extra:** Python 3.10+ — o mesmo do SuperClaude.
+
+**Nao precisa de API key.** Codigo e extraido estruturalmente (AST), sem LLM: `/graphify .` num
+repositorio de codigo nao le nenhuma chave. `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` e afins nunca
+sao lidos. A extracao semantica (so para docs, PDFs, papers e imagens) usa o proprio agente da
+sessao como LLM; opcionalmente, se `GEMINI_API_KEY` ou `GOOGLE_API_KEY` ja estiver no ambiente,
+ela usa Gemini:
+
+```bash
+pipx install 'graphifyy[gemini]'   # opcional — so para corpus com docs/imagens
+export GEMINI_API_KEY=...          # opcional — sem isso, o agente extrai
+```
+
+**Uso:**
+```bash
+/graphify .                                    # constroi o grafo da pasta atual
+/graphify query "o que conecta X a Y?"         # consulta o grafo (BFS)
+/graphify path "NodeA" "NodeB"                 # menor caminho entre dois nos
+/graphify explain "NomeDoNo"                   # vizinhanca de um no
+/graphify . --update                           # re-extrai so arquivos alterados
+```
+
+**Saidas em `graphify-out/`:** `graph.html`, `GRAPH_REPORT.md`, `graph.json`, `obsidian/`,
+`wiki/`, `cache/` (SHA256, evita reprocessar arquivo inalterado).
 
 ---
 
@@ -188,12 +277,15 @@ claude mcp add filesystem          -- npx -y "@modelcontextprotocol/server-files
 **Instalacao Linux/Mac:**
 ```bash
 # Instalar tmux se necessario
-brew install tmux        # macOS
-sudo apt install tmux    # Ubuntu/Debian
+brew install tmux              # macOS
+sudo apt-get install -y tmux   # Ubuntu/Debian
+sudo dnf install -y tmux       # Fedora/RHEL/Rocky/Alma
 
 # Instalar claude-squad
 curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.sh | bash
 ```
+
+O binario `cs` vai para `~/.local/bin` — garanta que esta no `PATH`.
 
 **Instalacao Windows:**
 ```powershell
@@ -214,6 +306,18 @@ curl -fsSL https://raw.githubusercontent.com/smtg-ai/claude-squad/main/install.s
 - **`settings.json` NAO aceita `mcpServers`** — MCPs ficam em `~/.claude.json` via `claude mcp add`
 - **SuperClaude no Windows** requer `PYTHONIOENCODING=utf-8` por causa de emojis no output
 - **WSL2 no Windows 10/11** requer restart apos `wsl --install` para ativar
+- **PEP 668 (Fedora/RHEL/Debian)** — `pip install` no Python do sistema falha; use `pipx` (secao 5)
+- **`npm install -g` com Node do gerenciador de pacotes** — o prefix e `/usr`, que nao e gravavel
+  pelo usuario, e a instalacao falha com `EACCES`. O `setup.sh` detecta isso e roda
+  `npm config set prefix "$HOME/.local"`. Node via nvm/fnm ja usa prefix no `$HOME` e nao e alterado.
+- **`~/.local/bin` precisa estar no `PATH`** — destino de `pipx`, `claude-squad` (`cs`) e do npm
+  reconfigurado. O script exporta na sessao atual e avisa para persistir no `.bashrc`/`.zshrc`.
+- **CLI `claude` ausente** — o script nao aborta mais; imprime os `claude mcp add` para rodar depois.
+- **`~/.claude/CLAUDE.md` e sobrescrito** pelo template deste repo. Se ja existir, os scripts
+  criam `CLAUDE.md.bak.AAAAMMDD-HHMMSS` antes de escrever. Reaplique suas regras customizadas.
+- **`setup.ps1`: backticks no here-string** — em `@"..."@` o PowerShell trata `` ` `` como escape
+  (`` `n `` virava quebra de linha no meio de `` `npx repomix` ``). Os backticks de markdown agora
+  sao duplicados no script para produzir um backtick literal no arquivo final.
 
 ---
 

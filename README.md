@@ -35,6 +35,7 @@ Configurar o Claude Code com todas as melhores ferramentas da comunidade leva ho
 | [repomix](https://github.com/yamadashy/repomix) | ⭐ 20k+ | 🍴 1k | Empacota codebase para IA, economiza tokens |
 | [task-master](https://github.com/eyaltoledano/claude-task-master) | ⭐ 20k+ | 🍴 2k | Gerenciamento de tarefas com IA |
 | [claude-squad](https://github.com/smtg-ai/claude-squad) | ⭐ 8k+ | 🍴 500 | Multi-agente paralelo com tmux |
+| [graphify](https://github.com/Graphify-Labs/graphify) | — | — | Codebase vira grafo de conhecimento consultavel |
 | [ccusage](https://github.com/ryoppippi/ccusage) | ⭐ 3k+ | 🍴 200 | Dashboard de consumo de tokens |
 | [context7 MCP](https://github.com/upstash/context7) | ⭐ 15k+ | 🍴 800 | Docs atualizadas em tempo real |
 | [MCP Servers](https://github.com/modelcontextprotocol/servers) | ⭐ 14k+ | 🍴 1.5k | Sequential thinking + filesystem |
@@ -64,6 +65,37 @@ chmod +x setup.sh && ./setup.sh
 ```
 
 Reinicie o Claude Code apos a instalacao. Pronto.
+
+> **Atencao:** o setup **sobrescreve** o seu `~/.claude/CLAUDE.md` com o template deste repo.
+> Se o arquivo ja existir, um backup datado (`CLAUDE.md.bak.AAAAMMDD-HHMMSS`) e criado antes —
+> reaplique suas regras customizadas depois.
+
+### Distros suportadas
+
+O `setup.sh` detecta a distro por `/etc/os-release` e usa o gerenciador de pacotes certo.
+
+| Sistema | Gerenciador | Status |
+|---|---|---|
+| Fedora 40+ | `dnf5` / `dnf` | Suportado |
+| RHEL / Rocky / Alma / CentOS Stream 9-10 | `dnf` | Suportado |
+| Ubuntu 22+ / Debian | `apt-get` | Suportado |
+| macOS 13+ | `brew` | Suportado |
+| Outras | — | Roda, mas so reporta dependencias faltando |
+
+Se faltar alguma dependencia (git, Node.js, tmux, pipx), o script **mostra o comando exato
+e pede confirmacao** antes de rodar `sudo`. Nada e instalado sem seu aval.
+
+**Flags uteis:**
+```bash
+./setup.sh --dry-run      # mostra tudo que seria executado, sem executar
+./setup.sh --detect-only  # so imprime a plataforma detectada
+./setup.sh --yes          # instala dependencias faltando sem perguntar
+```
+
+> **Fedora / RHEL:** o Python do sistema e marcado como `externally-managed` (PEP 668),
+> entao `pip install` falha. O script instala o SuperClaude via **pipx** — com fallback
+> automatico para um venv em `~/.claude/venv-superclaude`.
+> Em RHEL/Rocky/Alma o `pipx` vem do EPEL: `sudo dnf install -y epel-release`.
 
 ---
 
@@ -140,6 +172,30 @@ cs   # abre o painel
 → n → "tests"    → "testes para a API de usuarios"
 # Todos rodam ao mesmo tempo!
 ```
+
+---
+
+### graphify — codebase vira grafo de conhecimento
+**[github.com/Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify)**
+
+Le uma pasta inteira — codigo, PDFs, markdown, imagens, diagramas, videos — e monta um grafo
+de conhecimento persistente com deteccao de comunidades e god nodes. Depois voce **consulta o
+grafo** em vez de reler os arquivos: ~71x menos tokens por pergunta, e o grafo sobrevive entre
+sessoes.
+
+```bash
+/graphify .                          # constroi o grafo da pasta atual
+/graphify query "o que conecta o auth ao billing?"
+/graphify path "UserService" "Invoice"
+/graphify explain "PaymentGateway"
+/graphify . --update                 # re-extrai so o que mudou
+```
+
+Saidas em `graphify-out/`: `graph.html` interativo, `GRAPH_REPORT.md` em linguagem simples,
+`graph.json` para GraphRAG, vault Obsidian e wiki navegavel por agentes.
+
+O setup instala o pacote PyPI `graphifyy` e roda `graphify install`, que registra a skill em
+`~/.claude/skills/graphify/`.
 
 ---
 
@@ -261,9 +317,11 @@ pip install --upgrade superclaude
 $env:PYTHONIOENCODING='utf-8'; superclaude install
 
 # SuperClaude (Linux/Mac)
-pip install --upgrade superclaude
+pipx upgrade superclaude
 PYTHONIOENCODING=utf-8 superclaude install
 ```
+
+Ou simplesmente: `./update.sh` — atualiza tudo e escolhe o caminho certo (pipx ou venv).
 
 ---
 

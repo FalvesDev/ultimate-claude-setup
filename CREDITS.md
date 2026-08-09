@@ -48,6 +48,14 @@ Todo o credito vai para os criadores originais de cada ferramenta.
 - **Licenca:** MIT
 - Terminal app para orquestrar multiplos agentes Claude Code em paralelo via tmux + git worktrees.
 
+### graphify
+- **Repo:** https://github.com/Graphify-Labs/graphify
+- **Criador:** safishamsi / Graphify Labs
+- **Pacote PyPI:** `graphifyy` (o nome `graphify` esta sendo reivindicado no PyPI)
+- Skill que transforma qualquer pasta — codigo, docs, papers, imagens, videos — num grafo de
+  conhecimento persistente e consultavel, com deteccao de comunidades e god nodes.
+  Apoie o autor: https://github.com/sponsors/safishamsi
+
 ---
 
 ## MCP Servers
